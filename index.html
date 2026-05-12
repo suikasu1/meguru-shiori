@@ -185,20 +185,22 @@
     }
 
     /* しおり上部の紐 */
-#result.bookmark-vertical::after{
-  content:"";
-  position:absolute;
-  top:-44px;
-  left:50%;
-  transform:translateX(-50%);
+.bookmark-area{
+  width: fit-content;
+  margin: 70px auto 0;
+  position: relative;
+}
 
-  width:12px;
-  height:44px;
-
-  background:var(--bookmark);
-  border-radius:0;
-
+.bookmark-string{
+  width: 12px;
+  height: 46px;
+  background: var(--bookmark);
+  margin: 0 auto;
   box-shadow: 0 6px 12px rgba(15, 23, 42, 0.08);
+}
+
+#result.bookmark-vertical{
+  margin: 0 auto;
 }
 
     #result.bookmark-vertical .title{
@@ -297,7 +299,10 @@
       </div>
     </div>
 
-    <div id="result" class="bookmark-vertical"></div>
+    <div class="bookmark-area">
+  <div class="bookmark-string" aria-hidden="true"></div>
+  <div id="result" class="bookmark-vertical"></div>
+</div>
   </div>
 
 <script>
