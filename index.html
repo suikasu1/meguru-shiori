@@ -4,276 +4,400 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>めぐる本屋｜しおりを1枚、引く</title>
+
   <style>
-  :root{
-    --bg: #fbfaf7;
-    --card: #ffffff;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --line: #e7e5e4;
-    --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    --radius: 16px;
-  }
+    :root{
+      --bg:#fbf7ef;
+      --paper:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e2da;
+      --shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
 
-  * { box-sizing: border-box; }
-  body{
-    margin: 0;
-    font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
-    color: var(--text);
-    background: var(--bg);
-    line-height: 1.75;
-  }
+      /* しおりの帯 */
+      --bookmark:#1f5c55;
 
-  .wrap{
-    max-width: 780px;
-    margin: 40px auto;
-    padding: 0 18px 64px;
-  }
+      /* 角丸 */
+      --soft-radius: 10px;
+      --button-radius: 8px;
+    }
 
-  h1{
-    font-size: 30px;
-    letter-spacing: 0.02em;
-    margin: 0 0 8px;
-  }
+    *{
+      box-sizing:border-box;
+    }
 
-  .hintline{
-    margin: 0 0 22px;
-    color: var(--muted);
-    font-size: 14px;
-  }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.8;
+    }
 
-  label{
-    display:block;
-    margin: 16px 0 8px;
-    font-weight: 600;
-    font-size: 14px;
-  }
+    .wrap{
+      max-width: 920px;
+      margin: 44px auto;
+      padding: 0 18px 80px;
+    }
 
-  select{
-    width: 100%;
-    max-width: 420px;
-    padding: 12px 12px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: #fff;
-    font-size: 16px;
-    outline: none;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
-  }
-  select:focus{
-    border-color: #d6d3d1;
-    box-shadow: 0 0 0 4px rgba(214, 211, 209, 0.35);
-  }
+    header small{
+      display:block;
+      letter-spacing:.12em;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:10px;
+    }
 
-  .actions{
-    display:flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin: 18px 0 8px;
-  }
+    h1{
+      font-size:32px;
+      margin:0 0 14px;
+      letter-spacing:.01em;
+    }
 
-  button{
-    appearance: none;
-    border: 1px solid var(--line);
-    background: #fff;
-    color: var(--text);
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform .02s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
-  }
-  button:hover{
-    border-color: #d6d3d1;
-    background: #fafafa;
-  }
-  button:active{
-    transform: translateY(1px);
-  }
-  button:disabled{
-    opacity: .45;
-    cursor: not-allowed;
-  }
+    .lead{
+      color:var(--muted);
+      font-size:15px;
+      margin:0 0 26px;
+    }
 
-  /* いちばん大事なボタンだけ少し強調 */
-  #draw{
-    background: #111827;
-    color: #fff;
-    border-color: #111827;
-  }
-  #draw:hover{
-    background: #0b1220;
-    border-color: #0b1220;
-  }
+    .panel{
+      background: rgba(255,255,255,0.40);
+      border: 1px solid var(--line);
+      border-radius: var(--soft-radius);
+      padding: 16px 16px 18px;
+    }
 
-  .card{
-    margin-top: 18px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 18px 18px 16px;
-    box-shadow: var(--shadow);
-  }
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
 
-  .meta{
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
+    label{
+      display:block;
+      margin: 16px 0 8px;
+      font-weight:600;
+      font-size:14px;
+    }
 
-  .title{
-    font-size: 18px;
-    font-weight: 800;
-    margin: 4px 0 10px;
-  }
+    select{
+      width:100%;
+      max-width:520px;
+      padding:12px 12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      border-radius: var(--soft-radius);
+      outline:none;
+    }
 
-  .msg{
-    white-space: pre-wrap;
-    font-size: 15px;
-  }
+    select:focus{
+      border-color:#d9c9b3;
+      box-shadow: 0 0 0 4px rgba(217, 201, 179, 0.20);
+    }
 
-  .small{
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 10px;
-  }
+    .actions{
+      display:flex;
+      gap:12px;
+      margin:18px 0 10px;
+      flex-wrap:wrap;
+    }
 
-  /* スマホ最適化 */
-  @media (max-width: 520px){
-    .wrap{ margin: 24px auto; padding-bottom: 44px; }
-    h1{ font-size: 24px; }
-    select{ max-width: 100%; }
-    .actions{ gap: 8px; }
-    button{ width: 100%; justify-content: center; }
-  }
-</style>
+    button{
+      padding:10px 18px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--ink);
+      font-weight:600;
+      cursor:pointer;
+      border-radius: var(--button-radius);
+      transition: background .15s ease, border-color .15s ease, opacity .15s ease;
+    }
+
+    button:hover{
+      border-color:#d9c9b3;
+      background: rgba(255,255,255,0.85);
+    }
+
+    button:disabled{
+      opacity:.4;
+      cursor:not-allowed;
+    }
+
+    #draw{
+      background:var(--bookmark);
+      color:#fff;
+      border-color:var(--bookmark);
+    }
+
+    #draw:hover{
+      background:#164842;
+      border-color:#164842;
+    }
+
+    .status{
+      margin-top:10px;
+      font-size:13px;
+      color:var(--muted);
+      min-height:18px;
+    }
+
+    /* ===== しおり（結果表示） ===== */
+
+    #result{
+      display:none;
+      position:relative;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:0; /* しおり本体は角丸なし */
+      box-shadow: var(--shadow);
+    }
+
+    /* しおり部分だけ、全端末で縦書き */
+    #result.bookmark-vertical{
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+
+      /*
+        しおりの寸法
+        height は1列あたりの文字数に影響。
+        現状は300字前後を想定して、満杯になりすぎない程度に調整。
+      */
+      width: 190px;
+      height: 660px;
+
+      margin: 64px auto 0;
+      padding: 20px 18px 20px 26px;
+
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* 左の緑線 */
+    #result.bookmark-vertical::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      width:10px;
+      height:100%;
+      background:var(--bookmark);
+    }
+
+    /* しおり上部の紐 */
+#result.bookmark-vertical::after{
+  content:"";
+  position:absolute;
+  top:-44px;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:12px;
+  height:44px;
+
+  background:var(--bookmark);
+  border-radius:0;
+
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.08);
+}
+
+    #result.bookmark-vertical .title{
+      font-size:18px;
+      font-weight:700;
+      line-height:1.6;
+      margin:0 0 16px;
+      letter-spacing:.02em;
+    }
+
+    #result.bookmark-vertical .msg{
+      font-size:15px;
+      line-height:1.6;
+      white-space:pre-wrap;
+    }
+
+    /* 念のため、古いメタ情報が残っていても出さない */
+    #result.bookmark-vertical .meta{
+      display:none;
+    }
+
+    @media (max-width: 520px){
+      .wrap{
+        margin: 28px auto;
+        padding: 0 16px 64px;
+      }
+
+      h1{
+        font-size:26px;
+      }
+
+      select{
+        max-width:100%;
+      }
+
+      button{
+        width:100%;
+      }
+
+      #result.bookmark-vertical{
+        width: 180px;
+        height: 640px;
+      }
+    }
+
+    @media (max-height: 520px){
+      #result.bookmark-vertical{
+        height: 600px;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="wrap">
-    <h1>しおりを1枚、引く</h1>
-    <p class="hintline">状況とジャンルを選ぶと、しおりが1枚届きます。</p>
+    <header>
+      <small>MEGURU BOOKS</small>
+      <h1>しおりを1枚、引く</h1>
+      <p class="lead">状況とジャンルを選ぶと、しおりが1枚届きます。</p>
+    </header>
 
-    <label for="hint">この本はいつ読みたい？</label>
-    <select id="hint">
-      <option value="">指定しない</option>
-      <option>1日の終わりに</option>
-      <option>ちょっと疲れているときに</option>
-      <option>元気がほしいときに</option>
-      <option>ひとりで静かに読みたい</option>
-      <option>読書が久しぶりの人に</option>
-      <option>気持ちを切り替えたい</option>
-    </select>
+    <div class="panel">
+      <div class="layout">
+        <div>
+          <label for="hint">この本はいつ読みたい？</label>
+          <select id="hint">
+            <option value="">指定しない</option>
+            <option>1日の終わりに</option>
+            <option>ちょっと疲れているときに</option>
+            <option>元気がほしいときに</option>
+            <option>ひとりで静かに読みたい</option>
+            <option>読書が久しぶりの人に</option>
+            <option>気持ちを切り替えたい</option>
+          </select>
+        </div>
 
-    <label for="genre">ジャンル</label>
-    <select id="genre">
-      <option value="">指定しない</option>
-      <option>小説</option>
-      <option>エッセイ</option>
-      <option>絵本</option>
-      <option>詩・短歌</option>
-      <option>ノンフィクション</option>
-    </select>
+        <div>
+          <label for="genre">ジャンル</label>
+          <select id="genre">
+            <option value="">指定しない</option>
+            <option>小説</option>
+            <option>エッセイ</option>
+            <option>絵本</option>
+            <option>詩・短歌</option>
+            <option>ノンフィクション</option>
+          </select>
+        </div>
 
-    <div class="actions">
-      <button id="draw">しおりを1枚、引く</button>
-      <button id="again" disabled>もう1枚引く</button>
-      <button id="share" disabled>シェア文言をコピー</button>
+        <div class="actions">
+          <button id="draw">しおりを1枚、引く</button>
+          <button id="again" disabled>もう1枚引く</button>
+          <button id="share" disabled>シェア文言をコピー</button>
+        </div>
+
+        <div id="status" class="status"></div>
+      </div>
     </div>
 
-    <div id="result" class="card" style="display:none;"></div>
-    <div id="status" class="small"></div>
+    <div id="result" class="bookmark-vertical"></div>
   </div>
 
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbwuPJEHS4jBAD88qFDbpxKsKcMSxl2lkY_W5H80iJW2FH2gK6GheosLgli7Kautm0ouHw/exec";
 
-  const elHint = document.getElementById('hint');
-  const elGenre = document.getElementById('genre');
-  const elDraw = document.getElementById('draw');
-  const elAgain = document.getElementById('again');
-  const elShare = document.getElementById('share');
-  const elResult = document.getElementById('result');
-  const elStatus = document.getElementById('status');
+  const elHint = document.getElementById("hint");
+  const elGenre = document.getElementById("genre");
+  const elDraw = document.getElementById("draw");
+  const elAgain = document.getElementById("again");
+  const elShare = document.getElementById("share");
+  const elResult = document.getElementById("result");
+  const elStatus = document.getElementById("status");
 
-  let lastShareText = '';
+  let lastShare = "";
 
-  function buildShareText(hint) {
-    return `今日引いたのは、\n「${hint}」向けのしおりでした。\n\nめぐる本屋のオンラインしおりから。`;
-  }
-
-  function escapeHtml(s) {
-    return String(s ?? '').replace(/[&<>"']/g, m => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  function esc(s){
+    return String(s ?? "").replace(/[&<>"']/g, m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
     }[m]));
   }
 
-  async function drawOne() {
+  function buildShareText(hint, title, author){
+    const bookLine = author ? `『${title}』／${author}` : `『${title}』`;
+    return `今日引いたのは、\n「${hint}」向けのしおりでした。\n\n${bookLine}\nめぐる本屋のオンラインしおりから。`;
+  }
+
+  async function draw(){
     const hint = elHint.value.trim();
     const genre = elGenre.value.trim();
-    const url = new URL(API_URL);
-    if (hint) url.searchParams.set('hint', hint);
-    if (genre) url.searchParams.set('genre', genre);
 
-    elStatus.textContent = '読み込み中…';
+    const url = new URL(API_URL);
+    if(hint) url.searchParams.set("hint", hint);
+    if(genre) url.searchParams.set("genre", genre);
+
+    elStatus.textContent = "読み込み中…";
     elDraw.disabled = true;
     elAgain.disabled = true;
     elShare.disabled = true;
 
-    try {
-      const res = await fetch(url.toString(), { method: 'GET' });
+    try{
+      const res = await fetch(url.toString(), { method:"GET" });
       const json = await res.json();
 
-      if (!json.ok) {
-        elResult.style.display = 'block';
-        elResult.innerHTML = `<div class="meta">エラー</div><div class="msg">${escapeHtml(json.error || '不明なエラー')}</div>`;
-        elStatus.textContent = '';
+      if(!json.ok){
+        elResult.style.display = "block";
+        elResult.innerHTML = `<div class="msg">取得できませんでした。</div>`;
+        elStatus.textContent = "";
         elDraw.disabled = false;
         return;
       }
 
-      if (json.found === 0) {
-        elResult.style.display = 'block';
-        elResult.innerHTML = `<div class="meta">見つかりませんでした</div><div class="msg">${escapeHtml(json.message)}</div>`;
-        elStatus.textContent = '';
+      if(json.found === 0){
+        elResult.style.display = "block";
+        elResult.innerHTML = `<div class="msg">${esc(json.message || "条件に合うしおりがありません。")}</div>`;
+        elStatus.textContent = "";
         elDraw.disabled = false;
         return;
       }
 
       const d = json.data;
-      const authorLine = d.author ? `／${escapeHtml(d.author)}` : '';
-      elResult.style.display = 'block';
+      const hintLabel = d.hint ? d.hint : "指定なし";
+      const authorLine = d.author ? `／${esc(d.author)}` : "";
+
+      elResult.style.display = "block";
       elResult.innerHTML = `
-        <div class="meta">この本はいつ読みたい？：${escapeHtml(d.hint)}　｜　ジャンル：${escapeHtml(d.genre)}</div>
-        <div class="title">『${escapeHtml(d.title)}』${authorLine}</div>
-        <div class="msg">${escapeHtml(d.message)}</div>
+        <div class="title">『${esc(d.title)}』${authorLine}</div>
+        <div class="msg">${esc(d.message)}</div>
       `;
 
-      lastShareText = buildShareText(d.hint || '（指定なし）');
+      lastShare = buildShareText(hintLabel, d.title, d.author);
+
       elAgain.disabled = false;
       elShare.disabled = false;
-      elStatus.textContent = '';
       elDraw.disabled = false;
+      elStatus.textContent = "";
 
-    } catch (e) {
-      elResult.style.display = 'block';
-      elResult.innerHTML = `<div class="meta">エラー</div><div class="msg">通信に失敗しました。もう一度お試しください。</div>`;
-      elStatus.textContent = '';
+    }catch(e){
+      elResult.style.display = "block";
+      elResult.innerHTML = `<div class="msg">通信に失敗しました。もう一度お試しください。</div>`;
+      elStatus.textContent = "";
       elDraw.disabled = false;
     }
   }
 
-  elDraw.addEventListener('click', drawOne);
-  elAgain.addEventListener('click', drawOne);
+  elDraw.addEventListener("click", draw);
+  elAgain.addEventListener("click", draw);
 
-  elShare.addEventListener('click', async () => {
-    if (!lastShareText) return;
-    try {
-      await navigator.clipboard.writeText(lastShareText);
-      elStatus.textContent = 'シェア文言をコピーしました。';
-      setTimeout(() => elStatus.textContent = '', 2000);
-    } catch (e) {
-      elStatus.textContent = 'コピーできませんでした。手動で選択してください。';
+  elShare.addEventListener("click", async ()=>{
+    if(!lastShare) return;
+
+    try{
+      await navigator.clipboard.writeText(lastShare);
+      elStatus.textContent = "シェア文言をコピーしました。";
+      setTimeout(()=> elStatus.textContent = "", 2000);
+    }catch(e){
+      elStatus.textContent = "コピーできませんでした。";
     }
   });
 </script>
