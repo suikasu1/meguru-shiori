@@ -12,9 +12,9 @@
       --ink:#1f2937;
       --muted:#6b7280;
       --line:#e5e2da;
-      --shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+      --shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
 
-      --bookmark:#1f5c55;
+      --accent:#1f5c55;
 
       --soft-radius: 10px;
       --button-radius: 8px;
@@ -123,9 +123,9 @@
     }
 
     #draw{
-      background:var(--bookmark);
+      background:var(--accent);
       color:#fff;
-      border-color:var(--bookmark);
+      border-color:var(--accent);
     }
 
     #draw:hover{
@@ -143,32 +143,51 @@
     /* ===== しおり（結果表示） ===== */
 
     #result{
-  display:none;
-  position:relative;
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-top:6px solid var(--bookmark);
-  border-radius:0;
-  box-shadow: var(--shadow);
-}
+      display:none;
+      position:relative;
+      border-radius:0;
+      box-shadow: var(--shadow);
+      background-color:#fffdf8;
+    }
 
     /* しおり部分だけ、全端末で縦書き */
     #result.bookmark-vertical{
       writing-mode: vertical-rl;
       text-orientation: mixed;
 
-      /*
-        しおり寸法
-        かなり細め。本文300字だとほどよく埋まる想定。
-      */
-      width: 200px;
-      height: 640px;
+      width: 220px;
+      height: 680px;
 
-      margin: 32px auto 0;
-      padding: 24px 18px 22px 20px;
+      margin: 36px auto 0;
+      padding: 96px 34px 92px 32px;
 
       overflow: auto;
       -webkit-overflow-scrolling: touch;
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* シチュエーション別背景 */
+    #result.theme-night{
+      background-image: url("assets/shiori-night.png");
+    }
+
+    #result.theme-rest{
+      background-image: url("assets/shiori-rest.png");
+    }
+
+    #result.theme-pop{
+      background-image: url("assets/shiori-pop.png");
+    }
+
+    #result.theme-quiet{
+      background-image: url("assets/shiori-quiet.png");
+    }
+
+    #result.theme-normal{
+      background-image: url("assets/shiori-normal.png");
     }
 
     #result.bookmark-vertical .title{
@@ -177,17 +196,26 @@
       line-height:1.65;
       margin:0 0 18px;
       letter-spacing:.02em;
+      color:var(--ink);
     }
 
     #result.bookmark-vertical .msg{
       font-size:15px;
-      line-height:1.65;
+      line-height:1.7;
       white-space:pre-wrap;
+      color:var(--ink);
     }
 
-    /* 念のため、古いメタ情報が残っていても出さない */
-    #result.bookmark-vertical .meta{
-      display:none;
+    /* 文字が背景に負ける場合の保険 */
+    .bookmark-text{
+      background: rgba(255, 253, 248, 0.72);
+      padding: 8px 6px;
+      border-radius: 6px;
+    }
+
+    /* 夜だけ、少し白背景を弱める */
+    #result.theme-night .bookmark-text{
+      background: rgba(255, 253, 248, 0.66);
     }
 
     @media (max-width: 520px){
@@ -209,10 +237,18 @@
       }
 
       #result.bookmark-vertical{
-        width: 190px;
-        height: 620px;
+        width: 210px;
+        height: 650px;
         margin-top: 32px;
-        padding: 24px 16px 20px 18px;
+        padding: 88px 30px 86px 28px;
+      }
+
+      #result.bookmark-vertical .title{
+        font-size:16px;
+      }
+
+      #result.bookmark-vertical .msg{
+        font-size:14px;
       }
     }
 
@@ -269,7 +305,7 @@
       </div>
     </div>
 
-    <div id="result" class="bookmark-vertical"></div>
+    <div id="result" class="bookmark-vertical theme-normal"></div>
   </div>
 
 <script>
@@ -295,6 +331,26 @@
     }[m]));
   }
 
+  function getThemeByHint(hint){
+    if(hint === "1日の終わりに") return "theme-night";
+    if(hint === "ちょっと疲れているときに") return "theme-rest";
+    if(hint === "元気がほしいときに") return "theme-pop";
+    if(hint === "ひとりで静かに読みたい") return "theme-quiet";
+
+    return "theme-normal";
+  }
+
+  function setTheme(theme){
+    elResult.classList.remove(
+      "theme-night",
+      "theme-rest",
+      "theme-pop",
+      "theme-quiet",
+      "theme-normal"
+    );
+    elResult.classList.add(theme);
+  }
+
   function buildShareText(hint, title, author){
     const bookLine = author ? `『${title}』／${author}` : `『${title}』`;
     return `今日引いたのは、\n「${hint}」向けのしおりでした。\n\n${bookLine}\nめぐる本屋のオンラインしおりから。`;
@@ -318,16 +374,18 @@
       const json = await res.json();
 
       if(!json.ok){
+        setTheme("theme-normal");
         elResult.style.display = "block";
-        elResult.innerHTML = `<div class="msg">取得できませんでした。</div>`;
+        elResult.innerHTML = `<div class="bookmark-text"><div class="msg">取得できませんでした。</div></div>`;
         elStatus.textContent = "";
         elDraw.disabled = false;
         return;
       }
 
       if(json.found === 0){
+        setTheme(getThemeByHint(hint));
         elResult.style.display = "block";
-        elResult.innerHTML = `<div class="msg">${esc(json.message || "条件に合うしおりがありません。")}</div>`;
+        elResult.innerHTML = `<div class="bookmark-text"><div class="msg">${esc(json.message || "条件に合うしおりがありません。")}</div></div>`;
         elStatus.textContent = "";
         elDraw.disabled = false;
         return;
@@ -337,10 +395,14 @@
       const hintLabel = d.hint ? d.hint : "指定なし";
       const authorLine = d.author ? `／${esc(d.author)}` : "";
 
+      setTheme(getThemeByHint(d.hint));
+
       elResult.style.display = "block";
       elResult.innerHTML = `
-        <div class="title">『${esc(d.title)}』${authorLine}</div>
-        <div class="msg">${esc(d.message)}</div>
+        <div class="bookmark-text">
+          <div class="title">『${esc(d.title)}』${authorLine}</div>
+          <div class="msg">${esc(d.message)}</div>
+        </div>
       `;
 
       lastShare = buildShareText(hintLabel, d.title, d.author);
@@ -351,8 +413,9 @@
       elStatus.textContent = "";
 
     }catch(e){
+      setTheme("theme-normal");
       elResult.style.display = "block";
-      elResult.innerHTML = `<div class="msg">通信に失敗しました。もう一度お試しください。</div>`;
+      elResult.innerHTML = `<div class="bookmark-text"><div class="msg">通信に失敗しました。もう一度お試しください。</div></div>`;
       elStatus.textContent = "";
       elDraw.disabled = false;
     }
