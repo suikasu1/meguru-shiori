@@ -152,22 +152,26 @@
 
     /* しおり部分だけ、全端末で縦書き */
     #result.bookmark-vertical{
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 
-      width: 220px;
-      height: 680px;
+  width: 220px;
+  height: 680px;
 
-      margin: 36px auto 0;
-      padding: 96px 34px 92px 32px;
+  margin: 36px auto 0;
+  padding: 96px 34px 92px 32px;
 
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
     /* シチュエーション別背景 */
     #result.theme-night{
@@ -208,12 +212,12 @@
 
     /* 文字が背景に負ける場合の保険 */
     .bookmark-text{
-      background: rgba(255, 253, 248, 0.72);
+      background: rgba(255, 253, 248, 0.45);
       padding: 8px 6px;
       border-radius: 6px;
     }
 
-    /* 夜だけ、少し白背景を弱める */
+    /* 夜だけ、文字を読みやすくするため白背景を少し強める */
     #result.theme-night .bookmark-text{
       background: rgba(255, 253, 248, 0.66);
     }
