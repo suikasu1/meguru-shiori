@@ -204,33 +204,23 @@
 
     /* 文字が背景に負ける場合の保険 */
     .bookmark-text{
-
   position:absolute;
-
-  top:50%;
-
+  top:170px;
   left:50%;
-
-  transform:translate(-50%, -50%);
+  transform:translateX(-50%);
 
   writing-mode: vertical-rl;
-
   text-orientation: mixed;
 
   max-height: 430px;
-
   max-width: 120px;
 
   background: rgba(255, 253, 248, 0.45);
-
   padding: 8px 6px;
-
   border-radius: 6px;
 
   overflow:auto;
-
 }
-
     /* 夜だけ、文字を読みやすくするため白背景を少し強める */
     #result.theme-night .bookmark-text{
       background: rgba(255, 253, 248, 0.66);
