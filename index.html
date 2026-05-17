@@ -205,61 +205,67 @@
     /* 文字が背景に負ける場合の保険 */
     .bookmark-text{
   position:absolute;
-  top:170px;
+  top:120px;
   left:50%;
   transform:translateX(-50%);
 
   writing-mode: vertical-rl;
   text-orientation: mixed;
 
-  max-height: 430px;
-  max-width: 120px;
+  height: 500px;
+  width: 128px;
 
   background: rgba(255, 253, 248, 0.45);
   padding: 8px 6px;
   border-radius: 6px;
 
-  overflow:auto;
+  overflow: visible;
 }
+    
     /* 夜だけ、文字を読みやすくするため白背景を少し強める */
     #result.theme-night .bookmark-text{
       background: rgba(255, 253, 248, 0.66);
     }
 
     @media (max-width: 520px){
-      .wrap{
-        margin: 28px auto;
-        padding: 0 16px 64px;
-      }
+  .wrap{
+    margin: 28px auto;
+    padding: 0 16px 64px;
+  }
 
-      h1{
-        font-size:26px;
-      }
+  h1{
+    font-size:26px;
+  }
 
-      select{
-        max-width:100%;
-      }
+  select{
+    max-width:100%;
+  }
 
-      button{
-        width:100%;
-      }
+  button{
+    width:100%;
+  }
 
-      #result.bookmark-vertical{
-        width: 210px;
-        height: 650px;
-        margin-top: 32px;
-        padding: 88px 30px 86px 28px;
-      }
+  #result.bookmark-vertical{
+    width: 210px;
+    height: 650px;
+    margin-top: 32px;
+    padding: 0;
+  }
 
-      #result.bookmark-vertical .title{
-        font-size:16px;
-      }
+  .bookmark-text{
+    top:110px;
+    height:480px;
+    width:124px;
+  }
 
-      #result.bookmark-vertical .msg{
-        font-size:14px;
-      }
-    }
+  #result.bookmark-vertical .title{
+    font-size:16px;
+  }
 
+  #result.bookmark-vertical .msg{
+    font-size:14px;
+  }
+}
     @media (max-height: 520px){
       #result.bookmark-vertical{
         height: 600px;
