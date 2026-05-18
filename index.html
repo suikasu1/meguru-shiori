@@ -383,8 +383,16 @@
   }
 
   function getThemeByHint(hint){
+  if(hint === "1日の終わりに") return "theme-night";
+  if(hint === "ちょっと疲れているときに") return "theme-rest";
+  if(hint === "元気がほしいときに") return "theme-pop";
+  if(hint === "ひとりで静かに読みたい") return "theme-quiet";
+  if(hint === "気持ちを切り替えたい") return "theme-switch";
 
-  function setTheme(theme){
+  return "theme-normal";
+}
+
+function setTheme(theme){
   elResult.classList.remove(
     "theme-night",
     "theme-rest",
