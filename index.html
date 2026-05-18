@@ -208,6 +208,10 @@
       background-image: url("assets/shiori-normal.png");
     }
 
+    #result.theme-switch{
+  background-image: url("assets/shiori-switch.png");
+}
+
     #result.bookmark-vertical .title{
   font-size:17px;
   font-weight:600;
@@ -379,24 +383,18 @@
   }
 
   function getThemeByHint(hint){
-    if(hint === "1日の終わりに") return "theme-night";
-    if(hint === "ちょっと疲れているときに") return "theme-rest";
-    if(hint === "元気がほしいときに") return "theme-pop";
-    if(hint === "ひとりで静かに読みたい") return "theme-quiet";
-
-    return "theme-normal";
-  }
 
   function setTheme(theme){
-    elResult.classList.remove(
-      "theme-night",
-      "theme-rest",
-      "theme-pop",
-      "theme-quiet",
-      "theme-normal"
-    );
-    elResult.classList.add(theme);
-  }
+  elResult.classList.remove(
+    "theme-night",
+    "theme-rest",
+    "theme-pop",
+    "theme-quiet",
+    "theme-normal",
+    "theme-switch"
+  );
+  elResult.classList.add(theme);
+}
 
   function buildShareText(hint, title, author){
     const bookLine = author ? `『${title}』／${author}` : `『${title}』`;
