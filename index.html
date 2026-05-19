@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>めぐる本屋｜しおりを1枚、引く</title>
+  <title>めぐる本屋｜オンラインしおり</title>
 
   <style>
     :root{
@@ -132,6 +132,23 @@
       background:#164842;
       border-color:#164842;
     }
+
+    #share{
+  border-color: var(--accent);
+  color: var(--accent);
+  background: #fff;
+}
+
+#share:hover{
+  background: rgba(31, 92, 85, 0.06);
+  border-color: var(--accent);
+}
+
+#share:disabled{
+  border-color: var(--line);
+  color: var(--ink);
+  background: #fff;
+}
 
     .status{
       margin-top:10px;
@@ -310,7 +327,7 @@
   <div class="wrap">
     <header>
       <small>MEGURU BOOKS</small>
-      <h1>しおりを引く</h1>
+      <h1>オンラインしおり</h1>
       <p class="lead">シチュエーションとジャンルを選ぶと、しおりが1枚届きます。</p>
     </header>
 
@@ -342,9 +359,9 @@
         </div>
 
         <div class="actions">
-          <button id="draw">しおりを1枚、引く</button>
+          <button id="draw">しおりを引く</button>
           <button id="again" disabled>もう1枚引く</button>
-          <button id="share" disabled>シェア文言をコピー</button>
+          <button id="share" disabled>Xでシェアする</button>
         </div>
 
         <div id="status" class="status"></div>
@@ -354,8 +371,8 @@
     <div id="result" class="bookmark-vertical theme-normal"></div>
 
 <footer class="credit">
-  <p> ©2026 めぐる本屋</p>
-  <p> しおりデザイン原案：新潟青陵大学様</p>
+  <p>©2026 めぐる本屋</p>
+  <p>しおりデザイン原案：新潟青陵大学様</p>
 </footer>
 </div>
 
@@ -406,7 +423,7 @@ function setTheme(theme){
 
   function buildShareText(hint, title, author){
     const bookLine = author ? `『${title}』／${author}` : `『${title}』`;
-    return `今日引いたのは、\n「${hint}」向けのしおりでした。\n\n${bookLine}\nめぐる本屋のオンラインしおりから。`;
+    return `めぐる本屋のオンラインしおりで、\n「${hint}」のしおりを引きました。\n\n${bookLine}`;
   }
 
   async function draw(){
@@ -477,17 +494,15 @@ function setTheme(theme){
   elDraw.addEventListener("click", draw);
   elAgain.addEventListener("click", draw);
 
-  elShare.addEventListener("click", async ()=>{
-    if(!lastShare) return;
+  elShare.addEventListener("click", ()=>{
+  if(!lastShare) return;
 
-    try{
-      await navigator.clipboard.writeText(lastShare);
-      elStatus.textContent = "シェア文言をコピーしました。";
-      setTimeout(()=> elStatus.textContent = "", 2000);
-    }catch(e){
-      elStatus.textContent = "コピーできませんでした。";
-    }
-  });
+  const pageUrl = "https://suikasu1.github.io/meguru-shiori/";
+  const text = `${lastShare}\n\n${pageUrl}`;
+
+  const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+  window.open(xUrl, "_blank", "noopener,noreferrer");
+});
 </script>
 </body>
 </html>
